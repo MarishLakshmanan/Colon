@@ -1,0 +1,19 @@
+<div *ngIf="!available" class="overlay">
+    <img src="../../assets//empty.png">
+</div>
+<div *ngIf="available" class="chat-container">
+    <div class="header">
+        <img [src]="receiver.profile">
+        <p>{{receiver.name}}</p>
+    </div>
+    <div class="box">
+        <app-chat *ngFor="let msg of chats" [msg]="msg" [ngStyle]="{alignSelf:(msg.id===sender.id)?'flex-end':'flex-start'}"></app-chat>
+    </div>
+    <div class="input">
+        <textarea [(ngModel)]="msg"></textarea>
+        <div class='btn-container'>
+            <div class="img-container" (click)="sendCode()"> <img src="../../assets/compile.png"></div>
+            <div class="img-container" (click)="sendMsg()"><img src="../../assets/send.png"></div>
+        </div>
+    </div>
+</div>

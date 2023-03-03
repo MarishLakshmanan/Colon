@@ -1,0 +1,14 @@
+.card{
+    background-color: var(--fifth);
+    padding: 10px;
+    border-radius: 7px;
+    box-shadow: 0px 3px 5px rgb(24, 21, 21);
+    width: auto;
+    min-width: 150px;
+    display: inline-block;
+    align-self: flex-start;
+    max-width: 80%;
+    word-wrap: break-word;
+    
+}
+

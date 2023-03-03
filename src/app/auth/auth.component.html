@@ -1,0 +1,22 @@
+<div class="auth-container">
+    <div class="form-container">
+        <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <h1 *ngIf="signup">Sign up.</h1>
+            <h1 *ngIf="!signup">Log in.</h1>
+            <div class="inputs">
+                <div class="profile" (click)="profile.click()">
+                    <input (change)="chooseProfile($event)" type="file" name="profile" ngModel #profile>
+                    <img [src]="src" >
+                </div>
+                <input ngModel  *ngIf="signup" name="name" type="text" placeholder="Username">
+                <input ngModel required email name="email" type="text" placeholder="Email-ID">
+                <input ngModel required name="pass" type="password" placeholder="Password">      
+                <button type="submit">Submit</button>
+            </div>
+            <p  *ngIf="signup" (click)="changeMode()">Log in</p>
+            <p  *ngIf="!signup" (click)="changeMode()">Sign up</p>
+        </form>
+    </div>
+    <app-alert-modal [msg]="msg" [color]="color" *ngIf="alert"></app-alert-modal>
+    <app-loader *ngIf="loading"></app-loader>
+</div>

@@ -1,0 +1,12 @@
+<div class="root">
+    <div class="left">
+        <div class="profiler">
+            <img [src]="user.profile">
+            <p >{{user.name}}</p>
+        </div>
+       <app-user *ngFor="let usr of users" [user]="usr" (cb)="onSelect($event)"></app-user> 
+    </div>
+    <div class="right">
+        <app-chatbox></app-chatbox>
+    </div>
+</div>
