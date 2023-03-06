@@ -11,6 +11,7 @@ import { ChatComponent } from './chatbox/chat/chat.component';
 import { HomeComponent } from './home/home.component';
 import { AlertModalComponent } from './shared/alert-modal/alert-modal.component';
 import { environment } from '../environments/environment';
+
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
