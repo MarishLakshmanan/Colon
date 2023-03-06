@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map, Observable, Subscription } from 'rxjs';
 import UserService, { User } from '../shared/user.service';
@@ -22,6 +22,8 @@ export class ChatboxComponent implements OnInit,OnDestroy {
   available = false
   msg = ''
   today = new Date().toISOString().slice(0,10);
+  compilerModal = false
+  @ViewChild('box') box:ElementRef
 
   sort(item1,item2){
     item1 = new Date(item1.time.seconds * 1000 + item1.time.nanoseconds / 1000000,);
@@ -51,13 +53,14 @@ export class ChatboxComponent implements OnInit,OnDestroy {
         value.sort(this.sort)
         return value
       })).subscribe((res)=>{
+        this.box.nativeElement.scrollTo(0,this.box.nativeElement.scrollHeight)
         this.chats = (res);
       })
     })
   }
 
-  sendMsg(){
-    let obj:Msg = {id:this.sender.id,msg:this.msg,time:new Date()}
+  sendMsg(type){
+    let obj:Msg = {id:this.sender.id,msg:this.msg,time:new Date(),type:type}
     this.collections.add(obj).then((res)=>{
       this.msg = ''
     }).catch((e)=>{
@@ -66,9 +69,20 @@ export class ChatboxComponent implements OnInit,OnDestroy {
   }
 
   sendCode(){
+    this.compilerModal = true
+  }
+
+  onCompile(event:Object|boolean){
+    console.log(event);
+    if(event==true){
+      this.compilerModal=false
+      return
+    }
+    let {code,type,value} = (<{code:string,type:string,value:string}>event)
+    
     const encodedParams = new URLSearchParams();
-    encodedParams.append("code", this.msg);
-    encodedParams.append("language", "js");
+    encodedParams.append("code", code);
+    encodedParams.append("language", value);
 
     const options = {
       method: 'POST',
@@ -78,10 +92,26 @@ export class ChatboxComponent implements OnInit,OnDestroy {
       body: encodedParams
     };
 
+    this.msg = `${type} \n\n ${code}`
+    this.sendMsg('code')
     fetch('https://api.codex.jaagrav.in', options)
       .then(response => response.json())
-      .then(response => console.log(response))
-      .catch(err => console.error(err));
+      .then(response => {
+        console.log(response);
+        if(response.status==200)
+          this.msg = response.output
+        else
+          this.msg = response.error
+        this.sendMsg('code')
+      })
+      .catch(err => {
+        this.msg = err.error
+        this.sendMsg('code')
+        console.log(err);
+        
+      });
+    
+      this.compilerModal=false
   }
 
   

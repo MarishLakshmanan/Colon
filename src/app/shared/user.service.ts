@@ -11,7 +11,8 @@ export interface User{
 export interface Msg{
     msg:string,
     id:string,
-    time:Date
+    time:Date,
+    type:string
 }
 
 @Injectable({

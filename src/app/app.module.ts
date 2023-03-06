@@ -15,6 +15,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
 import { LoaderComponent } from './shared/loader/loader.component';
+import { CodeComponent } from './chatbox/code/code.component';
 
 
 
@@ -32,7 +33,8 @@ const routes : Routes = [
     ChatComponent,
     HomeComponent,
     AlertModalComponent,
-    LoaderComponent
+    LoaderComponent,
+    CodeComponent
   ],
   imports: [
     BrowserModule,

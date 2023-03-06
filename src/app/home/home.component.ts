@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import BackendService from '../shared/backend.service';
 import UserService, { User } from '../shared/user.service';
 
 @Component({
@@ -17,7 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   user:User
 
 
-  constructor(private afs:AngularFirestore,private userService:UserService){
+  constructor(private afs:AngularFirestore,private userService:UserService,private backend:BackendService,private router:Router){
     this.collection =this.afs.collection<User>('user')
     this.listener = this.collection.valueChanges();
     console.log(this.collection);
@@ -43,5 +45,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   onSelect($event){
     this.id = $event + this.user.id
     this.userService.sendId(this.user.id,$event)
+  }
+
+  logout(){
+    this.backend.logout()
+    this.router.navigate(['/auth'])
   }
 }

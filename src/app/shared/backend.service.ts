@@ -51,6 +51,10 @@ export default class BackendService{
         })
     }
 
+    async logout(){
+        this.auth.signOut()
+    }
+
 
 
     async createUser(user:{id:string,name:string,email:string,profile}){

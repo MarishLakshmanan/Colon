@@ -3,6 +3,7 @@
         <div class="profiler">
             <img [src]="user.profile">
             <p >{{user.name}}</p>
+            <img (click)="logout()" src="../../assets/logout.png">
         </div>
        <app-user *ngFor="let usr of users" [user]="usr" (cb)="onSelect($event)"></app-user> 
     </div>

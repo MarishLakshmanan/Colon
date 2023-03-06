@@ -13,3 +13,28 @@ body{
     margin: 0;
     padding: 0;
 }
+
+.bold{
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.bolder{
+    font-weight: bolder;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+*::-webkit-scrollbar{
+    width: 3px;
+    height: 5px;
+}
+
+
+*::-webkit-scrollbar-track{
+    background:white;
+}
+
+*::-webkit-scrollbar-thumb{
+    background: var(--primary);
+    border-radius: 7px;
+}

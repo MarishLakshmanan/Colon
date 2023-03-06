@@ -3,7 +3,7 @@
     height: 100vh;
     overflow: hidden;
     box-sizing: border-box;
-    /* padding: 20px; */
+    padding: 20px;
     background-color: var(--primary);
     display: grid;
     grid-template-columns: 20% 80%;
@@ -20,6 +20,7 @@
     flex-direction: column;
     gap: 15px;
     overflow-y: scroll;
+    height: calc(100vh - 40px);
 }
 
 .left::-webkit-scrollbar{
@@ -30,6 +31,8 @@
     background-color: var(--third);
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    height: calc(100vh - 40px);
+    box-sizing: border-box;
 }
 
 .profiler{
@@ -45,6 +48,8 @@
     padding: 10px;
     box-sizing: border-box;
     align-self: center;
+    justify-content: space-between;
+    align-items: center;
 
 }
 .profiler img{
@@ -52,4 +57,12 @@
     width: 40px;
     height: 100%;
     object-fit: cover
+}
+
+.profiler img:last-child{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background-color: white;
+    box-shadow: 0px 3px 7px black;
 }
