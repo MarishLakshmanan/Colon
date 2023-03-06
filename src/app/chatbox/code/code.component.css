@@ -47,6 +47,8 @@
     align-self: flex-end;
     display: flex;
     gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .container button{

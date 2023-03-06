@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -17,6 +17,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   id:string
   subscriber:Subscription
   user:User
+  toggle = true
+  public getScreenWidth: any;
+  public getScreenHeight: any;
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+  }
 
 
   constructor(private afs:AngularFirestore,private userService:UserService,private backend:BackendService,private router:Router){
@@ -27,8 +36,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
     this.subscriber = this.listener.subscribe((res)=>{
       let temp = {}
+      this.users =[]
       res.forEach((item)=>{
         temp[item.id] = item
         if(item.id!=this.user.id)
@@ -45,6 +57,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   onSelect($event){
     this.id = $event + this.user.id
     this.userService.sendId(this.user.id,$event)
+  }
+
+  toggleMode(){
+    this.toggle = !this.toggle
   }
 
   logout(){

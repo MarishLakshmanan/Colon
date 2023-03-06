@@ -1,13 +1,13 @@
 <div class="root">
-    <div class="left">
+    <div class="left" [ngStyle]="(getScreenWidth<940)?(toggle)?{display:'flex'}:{display:'none'}:''">
         <div class="profiler">
             <img [src]="user.profile">
             <p >{{user.name}}</p>
             <img (click)="logout()" src="../../assets/logout.png">
         </div>
-       <app-user *ngFor="let usr of users" [user]="usr" (cb)="onSelect($event)"></app-user> 
+       <app-user (click)="toggleMode()" *ngFor="let usr of users" [user]="usr" (cb)="onSelect($event)"></app-user> 
     </div>
-    <div class="right">
-        <app-chatbox></app-chatbox>
+    <div class="right" [ngStyle]="(getScreenWidth<940)?(toggle)?{display:'none'}:{display:'flex'}:''">
+        <app-chatbox (back)="toggleMode()" [ngStyle]="{width:'100%'}"></app-chatbox>
     </div>
 </div>

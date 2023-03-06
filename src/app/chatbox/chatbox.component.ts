@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map, Observable, Subscription } from 'rxjs';
 import UserService, { User } from '../shared/user.service';
@@ -24,6 +24,7 @@ export class ChatboxComponent implements OnInit,OnDestroy {
   today = new Date().toISOString().slice(0,10);
   compilerModal = false
   @ViewChild('box') box:ElementRef
+  @Output() back = new EventEmitter<boolean>()
 
   sort(item1,item2){
     item1 = new Date(item1.time.seconds * 1000 + item1.time.nanoseconds / 1000000,);
@@ -98,7 +99,7 @@ export class ChatboxComponent implements OnInit,OnDestroy {
       .then(response => response.json())
       .then(response => {
         console.log(response);
-        if(response.status==200)
+        if(response.error=='')
           this.msg = response.output
         else
           this.msg = response.error
@@ -119,9 +120,19 @@ export class ChatboxComponent implements OnInit,OnDestroy {
     
   }
 
+  onPress(event){
+    if(event.key=="Enter"){
+      this.sendMsg("txt")
+    }
+  }
+
   ngOnDestroy(): void {
     // this.subscriber.unsubscribe()
     this.idSub.unsubscribe()
+  }
+
+  toggle(){
+    this.back.emit(true)
   }
 
 

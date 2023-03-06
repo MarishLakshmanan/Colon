@@ -56,7 +56,9 @@
     border-radius: 50%;
     width: 40px;
     height: 100%;
-    object-fit: cover
+    object-fit: cover;
+    padding: 5px;
+    box-sizing: border-box;
 }
 
 .profiler img:last-child{
@@ -65,4 +67,34 @@
     text-align: center;
     background-color: white;
     box-shadow: 0px 3px 7px black;
+}
+@media only screen and (max-width:940px) {
+    .root{
+        display: flex;
+    }
+    .right{
+        
+        width: 100%;
+    }
+    .left{
+      
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width:660px) {
+    
+
+    .root{
+        padding: 0px;
+    }
+
+    .left{
+        height: 100vh;
+        border-radius: 0px;
+    }
+
+    .right{
+        height: 100vh;
+    }
 }
