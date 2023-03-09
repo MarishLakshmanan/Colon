@@ -1,3 +1,4 @@
 <div class="card" [ngClass]="(msg.type=='code')?'code':''">
-    {{msg.msg}}
+    <p *ngIf='(msg.type!="code")'>{{msg.msg}}</p>
+    <pre *ngIf='(msg.type=="code")'><code [highlight]="msg.msg"></code></pre>
 </div>

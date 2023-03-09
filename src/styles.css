@@ -7,6 +7,11 @@
     --fifth:#002765;
     --white:#fff;
     --error:red;
+    --top: 105px;
+    --right: 125px;
+    --left: 133px;
+    --x:0px;
+    --y:0px;
 }
 
 body{

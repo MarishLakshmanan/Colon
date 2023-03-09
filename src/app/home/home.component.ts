@@ -20,6 +20,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   toggle = true
   public getScreenWidth: any;
   public getScreenHeight: any;
+  option = false
+  picker = false
+  
 
   @HostListener('window:resize', ['$event'])
   onWindowResize() {
@@ -35,7 +38,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.user = JSON.parse(localStorage.getItem("user"))
   }
 
+  redesign(){
+    document.getElementsByTagName('body')[0].style.setProperty("--primary",localStorage.getItem("--primary"))
+    document.getElementsByTagName('body')[0].style.setProperty("--second",localStorage.getItem("--second"))
+    document.getElementsByTagName('body')[0].style.setProperty("--third",localStorage.getItem("--third"))
+    document.getElementsByTagName('body')[0].style.setProperty("--fourth",localStorage.getItem("--fourth"))
+    document.getElementsByTagName('body')[0].style.setProperty("--fifth",localStorage.getItem("--fifth"))
+    document.getElementsByTagName('body')[0].style.setProperty("--text",localStorage.getItem("--text"))
+    document.getElementsByTagName('body')[0].style.setProperty("--error",localStorage.getItem("--error"))
+  }
+
   ngOnInit(): void {
+    this.redesign()
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
     this.subscriber = this.listener.subscribe((res)=>{
@@ -63,8 +77,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.toggle = !this.toggle
   }
 
+  onToggle(){
+    this.option=!this.option
+  }
   logout(){
+    // this.option=true
     this.backend.logout()
     this.router.navigate(['/auth'])
   }
+
+  toggleTheme(){
+    this.picker=true
+    this.onToggle()
+  }
+  closeTheme(){
+    this.picker=false
+    this.redesign()
+  }
+  
 }

@@ -3,11 +3,19 @@
         <div class="profiler">
             <img [src]="user.profile">
             <p >{{user.name}}</p>
-            <img (click)="logout()" src="../../assets/logout.png">
+            <!-- <img (click)="logout()" src="../../assets/logout.png"> -->
+            <div class="select">
+                <img (click)="onToggle()" src="../../assets/more.png">
+                <ul *ngIf="option">
+                    <li (click)="toggleTheme()" >Theme</li>
+                    <li (click)="logout()" >Logout</li>
+                </ul>
+            </div>
         </div>
        <app-user (click)="toggleMode()" *ngFor="let usr of users" [user]="usr" (cb)="onSelect($event)"></app-user> 
     </div>
     <div class="right" [ngStyle]="(getScreenWidth<940)?(toggle)?{display:'none'}:{display:'flex'}:''">
         <app-chatbox (back)="toggleMode()" [ngStyle]="{width:'100%'}"></app-chatbox>
     </div>
+    <app-picker (close)="closeTheme()" *ngIf="picker"></app-picker>
 </div>

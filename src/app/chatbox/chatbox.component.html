@@ -6,7 +6,7 @@
     <div class="header">
         <img [src]="receiver.profile">
         <p>{{receiver.name}}</p>
-        <img (click)="toggle()" src='../../assets/back.png'>
+        <img *ngIf="getScreenWidth<940" (click)="toggle()" src='../../assets/back.png'>
 
     </div>
     <div class="box" #box>

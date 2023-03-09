@@ -1,11 +1,11 @@
-<div class="auth-container">
-    <div class="form-container">
+<div (mousemove)="makeit3d($event)"  class="auth-container">
+    <div  class="form-container"> 
         <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
             <h1 *ngIf="signup">Sign up.</h1>
             <h1 *ngIf="!signup">Log in.</h1>
             <div class="inputs">
-                <div class="profile" (click)="profile.click()">
-                    <input (change)="chooseProfile($event)" type="file" name="profile" ngModel #profile>
+                <div class="profile " (click)="profile.click()" #procon>
+                    <input  (change)="chooseProfile($event)" type="file" name="profile" ngModel #profile>
                     <img [src]="src" >
                 </div>
                 <input ngModel  *ngIf="signup" name="name" type="text" placeholder="Username">
@@ -17,6 +17,18 @@
             <p  *ngIf="!signup" (click)="changeMode()">Sign up</p>
         </form>
     </div>
+    <div  class="comet-container">
+        <img class="planet" src="../../assets/2.png" data-value="-1">
+        <img class="planet" src="../../assets/3.png" data-value="1">
+        <img class="planet" src="../../assets/4.png" data-value="-1">
+        <img class="planet" src="../../assets/5.png" data-value="1">
+        <img class="planet" src="../../assets/6.png" data-value="-1">
+        <img class="planet" src="../../assets/7.png" data-value="1">
+        <img class="planet" src="../../assets/8.png" data-value="-1">
+        <img class="planet" src="../../assets/9.png" data-value="1">
+        <img class="planet" src="../../assets/1.png" data-value="-1">
+    </div>
     <app-alert-modal [msg]="msg" [color]="color" *ngIf="alert"></app-alert-modal>
     <app-loader *ngIf="loading"></app-loader>
+    
 </div>

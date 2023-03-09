@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map, Observable, Subscription } from 'rxjs';
 import UserService, { User } from '../shared/user.service';
@@ -9,6 +9,8 @@ import { Msg } from '../shared/user.service';
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.css']
 })
+
+
 
 
 export class ChatboxComponent implements OnInit,OnDestroy {
@@ -25,6 +27,8 @@ export class ChatboxComponent implements OnInit,OnDestroy {
   compilerModal = false
   @ViewChild('box') box:ElementRef
   @Output() back = new EventEmitter<boolean>()
+  public getScreenWidth: any;
+  public getScreenHeight: any;
 
   sort(item1,item2){
     item1 = new Date(item1.time.seconds * 1000 + item1.time.nanoseconds / 1000000,);
@@ -39,7 +43,16 @@ export class ChatboxComponent implements OnInit,OnDestroy {
     }
   }
 
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+  }
+
+
   constructor(private afs:AngularFirestore,private userService:UserService){
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
     this.idSub = userService.passId.subscribe((res:{sender:string,receiver:string})=>{
       console.log(res);
       let roomID = Array.from((res.sender+res.receiver)).sort().join('')

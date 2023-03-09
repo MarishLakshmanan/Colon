@@ -1,0 +1,47 @@
+<div class="overlay">
+    <div class="container">
+        <h2 >Enter your color</h2>
+        <div class="picker">
+            <div class="colors">
+                <label>Primary  </label>
+                <input [(ngModel)]="primary" type="color">
+            </div>
+            <div class="colors">
+                <label>Secondary  </label>
+                <input [(ngModel)]="second" type="color">
+            </div>
+            <div class="colors">
+                <label>Third  </label>
+                <input [(ngModel)]="third" type="color">
+            </div>
+            <div class="colors">
+                <label>Fourth  </label>
+                <input [(ngModel)]="fourth" type="color">
+            </div>
+            <div class="colors">
+                <label>Fifth  </label>
+                <input [(ngModel)]="fifth" type="color">
+            </div>
+            <div class="colors">
+                <label>Text  </label>
+                <input [(ngModel)]="text" type="color">
+            </div>
+            <div class="colors">
+                <label>Error  </label>
+                <input [(ngModel)]="error" type="color">
+            </div>
+        </div>
+        <div class="btn-container">
+            <button (click)="onCancel()" class=".bold">Cancel</button>
+            <button (click)="redesign()" class=".bold">Redesign</button>
+        </div>
+    </div>
+</div>
+
+<!-- --primary : #00194A;
+    --second: #000A2E;
+    --third:#1D295E;
+    --fourth:#00072C;
+    --fifth:#002765;
+    --white:#fff;
+    --error:red; -->
