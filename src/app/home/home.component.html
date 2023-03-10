@@ -17,5 +17,5 @@
     <div class="right" [ngStyle]="(getScreenWidth<940)?(toggle)?{display:'none'}:{display:'flex'}:''">
         <app-chatbox (back)="toggleMode()" [ngStyle]="{width:'100%'}"></app-chatbox>
     </div>
-    <app-picker (close)="closeTheme()" *ngIf="picker"></app-picker>
+    <app-picker (close)="closeTheme($event)" *ngIf="picker"></app-picker>
 </div>

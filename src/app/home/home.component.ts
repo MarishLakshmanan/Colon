@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { every, Observable, Subscription } from 'rxjs';
 import BackendService from '../shared/backend.service';
 import UserService, { User } from '../shared/user.service';
 
@@ -90,8 +90,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.picker=true
     this.onToggle()
   }
-  closeTheme(){
-    this.picker=false
+  closeTheme(event){
+    // console.log(event);
+    
+    this.picker=event
     this.redesign()
   }
   

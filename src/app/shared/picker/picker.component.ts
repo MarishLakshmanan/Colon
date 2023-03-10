@@ -31,7 +31,7 @@ export class PickerComponent {
     localStorage.setItem("--fifth",`${this.fifth}`)
     localStorage.setItem("--text",`${this.text}`)
     localStorage.setItem("--error",`${this.error}`)
-    this.close.emit(false)
+    this.close.emit(true)
   }
 
   onCancel(){
