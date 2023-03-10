@@ -5,7 +5,7 @@
             <p >{{user.name}}</p>
             <!-- <img (click)="logout()" src="../../assets/logout.png"> -->
             <div class="select">
-                <img (click)="onToggle()" src="../../assets/more.png">
+                <div><img (click)="onToggle()" src="../../assets/more.png"></div>
                 <ul *ngIf="option">
                     <li (click)="toggleTheme()" >Theme</li>
                     <li (click)="logout()" >Logout</li>

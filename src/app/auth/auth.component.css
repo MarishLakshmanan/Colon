@@ -20,7 +20,7 @@
     left: 50%;
     transform: translate(-50%,-50%);
     width: 380px;
-    min-height: 80%;
+    /* min-height: 80%; */
     /* background-color: white; */
     border-radius: 20px;
     padding: 10px;
@@ -78,7 +78,7 @@ form p{
     text-decoration: underline;
     font-size: 14px;
     cursor: pointer;
-    position: absolute;
+    /* position: absolute; */
     bottom: 10px;
 }
 
@@ -136,7 +136,7 @@ input::placeholder{
 }
 
 .shake{
-    animation: shake .5s linear 1s 3;
+    animation: shake .5s linear 0s 3;
     position: relative;
 }
 
@@ -216,19 +216,19 @@ input::placeholder{
 
 @keyframes shake {
     0%{
-        left: 0px;
+        translate: 0px;
     }
     25%{
-        left: 10px;
+        translate: 10px;
     }
     50%{
-        left: 0px;
+        translate: 0px;
     }
     75%{
-        left: -10px;
+        translate: -10px;
     }
     100%{
-        left: 0px;
+        translate: 0px;
     }
 }
 

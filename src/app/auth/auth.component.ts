@@ -62,8 +62,18 @@ export class AuthComponent {
     // eye.style.setProperty('--y',`${x}px`)
     // eye.style.setProperty('--x',`${y}px`)
 
+    if(this.src!="../../assets/pika.jpg"){
+
+    }
+
 
     let eye:any = document.querySelector('.profile')
+
+    if(this.src!="../../assets/pika.jpg"){
+      eye.style.setProperty('--top','1200px')  
+      return
+    }
+
     let cord = eye.getBoundingClientRect()
     let x = cord.left + cord.width / 2
     let y = cord.top + cord.height / 2 
@@ -134,6 +144,9 @@ export class AuthComponent {
         this.loading=false;
         console.log(this.profile);
         this.profile.nativeElement.classList.toggle('shake')
+        setTimeout(()=>{
+          this.profile.nativeElement.classList.toggle('shake')
+        },1500)
         return
       }
     }
@@ -153,9 +166,13 @@ export class AuthComponent {
       })
     }else{
       this.backend.login(form.value.email,form.value.pass).then((res)=>{
-        console.log(res);
-        this.loading=false;
-        this.router.navigate(['/'])
+        res.subscribe((res)=>{
+          console.log(res.data());
+          localStorage.setItem("user",JSON.stringify(res.data()))  
+          this.loading=false;
+          this.router.navigate(['/'])
+        })            
+        
       }).catch((e)=>{
         this.triggerAlert(e.slice(5),"red")
         this.loading=false

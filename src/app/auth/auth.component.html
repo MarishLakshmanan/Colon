@@ -12,9 +12,10 @@
                 <input ngModel required email name="email" type="text" placeholder="Email-ID">
                 <input ngModel required name="pass" type="password" placeholder="Password">      
                 <button type="submit">Submit</button>
+                <p  *ngIf="signup" (click)="changeMode()">Log in</p>
+                <p  *ngIf="!signup" (click)="changeMode()">Sign up</p>
             </div>
-            <p  *ngIf="signup" (click)="changeMode()">Log in</p>
-            <p  *ngIf="!signup" (click)="changeMode()">Sign up</p>
+            
         </form>
     </div>
     <div  class="comet-container">

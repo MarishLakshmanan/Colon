@@ -10,6 +10,8 @@ import UserComponent from "./user/user.component";
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
 import { PickerComponent } from "./shared/picker/picker.component";
 import { HighlightModule, HIGHLIGHT_OPTIONS } from "ngx-highlightjs";
+import { LoaderComponent } from "./shared/loader/loader.component";
+import AuthModule from "./auth.module";
 
 
 
@@ -24,9 +26,9 @@ let routes:Routes = [
     ChatComponent,
     HomeComponent,
     CodeComponent,
-    PickerComponent
+    PickerComponent,
   ],
-  imports:[CommonModule,FormsModule,RouterModule.forChild(routes),HighlightModule],
+  imports:[CommonModule,FormsModule,RouterModule.forChild(routes),HighlightModule,AuthModule],
   providers: [
     {
       provide: HIGHLIGHT_OPTIONS,

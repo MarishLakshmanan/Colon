@@ -17,6 +17,7 @@ export default class UnknownComponent{
     check(event){
         
         if(event.key=="Enter"){
+            this.command = this.command.toLowerCase()
             if(this.command=="help"){
                 this.commands = [...this.commands,...this.help]
             }else if(this.command=="ls realms"){

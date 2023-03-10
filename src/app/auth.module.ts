@@ -9,6 +9,6 @@ import { LoaderComponent } from "./shared/loader/loader.component";
 @NgModule({
     declarations:[AuthComponent,LoaderComponent,AlertModalComponent,ParallelDirective],
     imports:[CommonModule,FormsModule],
-    exports:[AuthComponent]
+    exports:[AuthComponent,LoaderComponent]
 })
 export default class AuthModule{}

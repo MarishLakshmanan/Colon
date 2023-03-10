@@ -13,7 +13,7 @@ import { Msg } from '../shared/user.service';
 
 
 
-export class ChatboxComponent implements OnInit,OnDestroy {
+export class ChatboxComponent implements OnDestroy {
   collections:AngularFirestoreCollection
   listener:Observable<any>
   chats:Object[]
@@ -23,8 +23,11 @@ export class ChatboxComponent implements OnInit,OnDestroy {
   receiver:User
   available = false
   msg = ''
-  today = new Date().toISOString().slice(0,10);
+  output = ''
+  showOutput = false
+  today = new Date().getFullYear().toString()
   compilerModal = false
+  loading = false
   @ViewChild('box') box:ElementRef
   @Output() back = new EventEmitter<boolean>()
   public getScreenWidth: any;
@@ -54,7 +57,7 @@ export class ChatboxComponent implements OnInit,OnDestroy {
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
     this.idSub = userService.passId.subscribe((res:{sender:string,receiver:string})=>{
-      console.log(res);
+      
       let roomID = Array.from((res.sender+res.receiver)).sort().join('')
       this.collections = afs.collection('Chats').doc(this.today).collection(roomID)
       this.listener = this.collections.valueChanges()
@@ -69,11 +72,17 @@ export class ChatboxComponent implements OnInit,OnDestroy {
       })).subscribe((res)=>{
         this.box.nativeElement.scrollTo(0,this.box.nativeElement.scrollHeight)
         this.chats = (res);
+        
       })
     })
   }
 
   sendMsg(type){
+
+    if(this.msg==""){
+      return
+    }
+
     let obj:Msg = {id:this.sender.id,msg:this.msg,time:new Date(),type:type}
     this.collections.add(obj).then((res)=>{
       this.msg = ''
@@ -87,13 +96,25 @@ export class ChatboxComponent implements OnInit,OnDestroy {
   }
 
   onCompile(event:Object|boolean){
-    console.log(event);
     if(event==true){
       this.compilerModal=false
       return
     }
     let {code,type,value} = (<{code:string,type:string,value:string}>event)
-    
+    if(code==''){
+      return
+    }
+
+    this.msg = `type: ${type} \n\n ${code}`
+    this.sendMsg('code')
+    this.compilerModal=false
+  }
+
+
+  onCompile2(event:Object){
+    let {code,type,value} = (<{code:string,type:string,value:string}>event)
+    this.loading = true
+    code = code.trim()
     const encodedParams = new URLSearchParams();
     encodedParams.append("code", code);
     encodedParams.append("language", value);
@@ -105,33 +126,26 @@ export class ChatboxComponent implements OnInit,OnDestroy {
       },
       body: encodedParams
     };
-
-    this.msg = `${type} \n\n ${code}`
-    this.sendMsg('code')
+    
     fetch('https://api.codex.jaagrav.in', options)
       .then(response => response.json())
       .then(response => {
         console.log(response);
+        this.showOutput = true
         if(response.error=='')
-          this.msg = response.output
+          this.output = response.output
         else
-          this.msg = response.error
-        this.sendMsg('code')
+          this.output = response.error
+        this.loading = false
       })
       .catch(err => {
-        this.msg = err.error
-        this.sendMsg('code')
         console.log(err);
-        
+        this.output = err
+        this.loading = false
       });
-    
-      this.compilerModal=false
   }
-
   
-  ngOnInit(){
-    
-  }
+
 
   onPress(event){
     if(event.key=="Enter"){

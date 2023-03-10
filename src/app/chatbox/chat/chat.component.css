@@ -9,7 +9,7 @@
     max-width: 80%;
     word-wrap: break-word;
     border-radius: 7px;
-
+    position: relative;
 }
 
 pre{
@@ -25,6 +25,24 @@ pre{
     min-width: 350px;
     /* overflow-y: scroll; */
     white-space: pre;   
+}
+
+.compile-btn{
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: var(--fifth);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text);
+    font-weight: bold;
+    font-size: 25px;
+    box-shadow: 0 0 10px black;
+    bottom: 17px;
+    right: 5px;
+    cursor: pointer;
 }
 
 /* .code::-webkit-scrollbar-track{

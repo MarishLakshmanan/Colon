@@ -6,13 +6,20 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./picker.component.css']
 })
 export class PickerComponent {
-  primary = '#00194A';
-  second = '#000A2E';
-  third = '#1D295E';
-  fourth = '#00072C';
-  fifth =  '#002765';
-  text=   '#fff';
-  error =  'red'
+  // primary = '#00194A';
+  // second = '#000A2E';
+  // third = '#1D295E';
+  // fourth = '#00072C';
+  // fifth =  '#002765';
+  // text=   '#fff';
+  // error =  'red'
+  primary = localStorage.getItem("--primary")
+  second =localStorage.getItem("--second")
+  third =localStorage.getItem("--third")
+  fourth =localStorage.getItem("--fourth")
+  fifth =localStorage.getItem("--fifth")
+  text =localStorage.getItem("--text")
+  error =localStorage.getItem("--error")
   @Output() close = new EventEmitter()
 
 

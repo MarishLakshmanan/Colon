@@ -7,6 +7,6 @@
     </video>
     <div class="code-container">
         <p class="code" *ngFor="let cmd of commands">{{cmd}}</p>
-        <span class="code">> <input (keyup)="check($event)" autofocus class="code" [(ngModel)]="command"></span>
+        <span class="code">> <input [spellcheck]="false" (keyup)="check($event)" autofocus class="code" [(ngModel)]="command"></span>
     </div>
 </div>

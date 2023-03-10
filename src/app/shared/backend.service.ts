@@ -37,11 +37,7 @@ export default class BackendService{
             console.log(res);
             let usrCol = this.afs.doc(`user/${res.user.uid}`)
             try {
-                usrCol.get().subscribe((res)=>{
-                    console.log(res.data());
-                    localStorage.setItem("user",JSON.stringify(res.data()))  
-                })            
-                return res;
+                return usrCol.get()
             } catch (e) {
                 console.log(e);
                 throw e.code

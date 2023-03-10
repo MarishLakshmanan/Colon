@@ -12,7 +12,12 @@
 </head>
 <body>
   <app-root></app-root>
-
+  <script>
+    console.log("initialized");
+    document.addEventListener('error',(e)=>{
+        console.log(e);
+    })
+  </script>
   
 </body>
 </html>
