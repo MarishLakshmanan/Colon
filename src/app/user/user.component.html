@@ -1,4 +1,4 @@
-<div (click)="onSelect()" class="card">
-    <img [src]="user.profile">
+<div (click)="onSelect()" [ngClass]="(!!selected)?'selected':''" class="card">
+    <img [ngStyle]="(active)?{border:'3px solid green',boxShadow:'0px 0px 10px green'}:''" [src]="user.profile">
     <div>{{user.name}}</div>
 </div>

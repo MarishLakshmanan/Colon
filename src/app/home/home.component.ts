@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { every, Observable, Subscription } from 'rxjs';
 import BackendService from '../shared/backend.service';
 import UserService, { User } from '../shared/user.service';
+import SockertService from './socket.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   collection:AngularFirestoreCollection<User>
   listener:Observable<User[]>
   users:User[] = []
-  id:string
+  roomID:string = ""
   subscriber:Subscription
   user:User
   toggle = true
@@ -22,7 +23,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   public getScreenHeight: any;
   option = false
   picker = false
-  
+
+
+  //Socket
+  activeUsers = []
 
   @HostListener('window:resize', ['$event'])
   onWindowResize() {
@@ -31,25 +35,39 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
 
-  constructor(private afs:AngularFirestore,private userService:UserService,private backend:BackendService,private router:Router){
+  constructor(private afs:AngularFirestore,private userService:UserService,private backend:BackendService,private router:Router,private socketService:SockertService){
     this.collection =this.afs.collection<User>('user')
     this.listener = this.collection.valueChanges();
     console.log(this.collection);
     this.user = JSON.parse(localStorage.getItem("user"))
+    socketService.emitToSocket('user-online',{id:this.user.id})
+    socketService.listenToSocket('active-users').subscribe((data)=>{
+      this.activeUsers = Object.values(data)
+      console.log(this.activeUsers);
+    })
+    
   }
 
-  redesign(){
-    document.getElementsByTagName('body')[0].style.setProperty("--primary",localStorage.getItem("--primary"))
-    document.getElementsByTagName('body')[0].style.setProperty("--second",localStorage.getItem("--second"))
-    document.getElementsByTagName('body')[0].style.setProperty("--third",localStorage.getItem("--third"))
-    document.getElementsByTagName('body')[0].style.setProperty("--fourth",localStorage.getItem("--fourth"))
-    document.getElementsByTagName('body')[0].style.setProperty("--fifth",localStorage.getItem("--fifth"))
-    document.getElementsByTagName('body')[0].style.setProperty("--text",localStorage.getItem("--text"))
-    document.getElementsByTagName('body')[0].style.setProperty("--error",localStorage.getItem("--error"))
+  // redesign(){
+  //   document.getElementsByTagName('body')[0].style.setProperty("--primary",localStorage.getItem("--primary"))
+  //   document.getElementsByTagName('body')[0].style.setProperty("--second",localStorage.getItem("--second"))
+  //   document.getElementsByTagName('body')[0].style.setProperty("--third",localStorage.getItem("--third"))
+  //   document.getElementsByTagName('body')[0].style.setProperty("--fourth",localStorage.getItem("--fourth"))
+  //   document.getElementsByTagName('body')[0].style.setProperty("--fifth",localStorage.getItem("--fifth"))
+  //   document.getElementsByTagName('body')[0].style.setProperty("--text",localStorage.getItem("--text"))
+  //   document.getElementsByTagName('body')[0].style.setProperty("--error",localStorage.getItem("--error"))
+  // }
+
+
+  checkActiveUser(id){
+    const res = this.activeUsers.find((activeIds)=>{
+      return activeIds==id
+    })
+    return (res)?true:false
   }
 
   ngOnInit(): void {
-    this.redesign()
+    // this.redesign()
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
     this.subscriber = this.listener.subscribe((res)=>{
@@ -69,11 +87,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onSelect($event){
-    this.id = $event + this.user.id
+    if(this.roomID != ""){
+      this.socketService.emitToSocket('room-disconnect',this.roomID)
+    }
+    this.roomID = Array.from(($event+this.user.id)).sort().join('')
+    this.socketService.emitToSocket('room-connect',this.roomID)
     this.userService.sendId(this.user.id,$event)
   }
 
-  toggleMode(){
+  toggleMode(event){
+    if(event==this.roomID){
+      this.socketService.emitToSocket('room-disconnect',this.roomID)
+      this.roomID = ''
+    }
     this.toggle = !this.toggle
   }
 
@@ -94,7 +120,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // console.log(event);
     
     this.picker=event
-    this.redesign()
+    // this.redesign()
   }
   
 }

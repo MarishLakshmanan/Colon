@@ -12,10 +12,10 @@
                 </ul>
             </div>
         </div>
-       <app-user (click)="toggleMode()" *ngFor="let usr of users" [user]="usr" (cb)="onSelect($event)"></app-user> 
+       <app-user (click)="toggleMode($event)" *ngFor="let usr of users;index as i" [active]="checkActiveUser(usr.id)" [user]="usr" [ngStyle]="(i==0)?{marginTop:'70px'}:''" (cb)="onSelect($event)"></app-user>
     </div>
     <div class="right" [ngStyle]="(getScreenWidth<940)?(toggle)?{display:'none'}:{display:'flex'}:''">
-        <app-chatbox (back)="toggleMode()" [ngStyle]="{width:'100%'}"></app-chatbox>
+        <app-chatbox (back)="toggleMode($event)" [ngStyle]="{width:'100%'}"></app-chatbox>
     </div>
     <app-picker (close)="closeTheme($event)" *ngIf="picker"></app-picker>
 </div>

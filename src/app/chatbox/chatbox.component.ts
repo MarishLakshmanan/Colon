@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map, Observable, Subscription } from 'rxjs';
+import SockertService from '../home/socket.service';
 import UserService, { User } from '../shared/user.service';
 import { Msg } from '../shared/user.service';
 
@@ -28,14 +29,17 @@ export class ChatboxComponent implements OnDestroy {
   today = new Date().getFullYear().toString()
   compilerModal = false
   loading = false
+  roomID
   @ViewChild('box') box:ElementRef
   @Output() back = new EventEmitter<boolean>()
   public getScreenWidth: any;
   public getScreenHeight: any;
 
   sort(item1,item2){
-    item1 = new Date(item1.time.seconds * 1000 + item1.time.nanoseconds / 1000000,);
-    item2 = new Date(item2.time.seconds * 1000 + item2.time.nanoseconds / 1000000,);
+    
+    
+    item1 = new Date(item1.time);
+    item2 = new Date(item2.time);
 
     if(item1<item2){
       return -1
@@ -53,27 +57,40 @@ export class ChatboxComponent implements OnDestroy {
   }
 
 
-  constructor(private afs:AngularFirestore,private userService:UserService){
+  constructor(private afs:AngularFirestore,private userService:UserService,private socketService:SockertService){
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
     this.idSub = userService.passId.subscribe((res:{sender:string,receiver:string})=>{
       
-      let roomID = Array.from((res.sender+res.receiver)).sort().join('')
-      this.collections = afs.collection('Chats').doc(this.today).collection(roomID)
-      this.listener = this.collections.valueChanges()
+      this.roomID = Array.from((res.sender+res.receiver)).sort().join('')
+      // this.collections = afs.collection('Chats').doc(this.today).collection(this.roomID)
+      // this.listener = this.collections.valueChanges()
       this.receiver = userService.users[res.receiver]
       this.sender = JSON.parse(localStorage.getItem('user'))
       this.available = true
 
 
-      this.subscriber = this.listener.pipe(map((value)=>{
-        value.sort(this.sort)
-        return value
-      })).subscribe((res)=>{
-        this.box.nativeElement.scrollTo(0,this.box.nativeElement.scrollHeight)
-        this.chats = (res);
-        
+      //Socket
+      socketService.listenToSocket('receive-msg').subscribe((data:Object)=>{
+        this.chats.push(data)
+        this.chats.sort(this.sort)
+        this.msg = ''
       })
+
+      socketService.listenToSocket('all-msg').subscribe((data:Object[])=>{
+        data.sort(this.sort)
+        this.chats = data
+      })
+
+      
+
+      // this.subscriber = this.listener.pipe(map((value)=>{
+      //   value.sort(this.sort)
+      //   return value
+      // })).subscribe((res)=>{
+      //   this.box.nativeElement.scrollTo(0,this.box.nativeElement.scrollHeight)
+      //   this.chats = (res);
+      // })
     })
   }
 
@@ -84,11 +101,18 @@ export class ChatboxComponent implements OnDestroy {
     }
 
     let obj:Msg = {id:this.sender.id,msg:this.msg,time:new Date(),type:type}
-    this.collections.add(obj).then((res)=>{
-      this.msg = ''
-    }).catch((e)=>{
-      console.log(e);
-    })
+
+    //
+    this.socketService.emitToSocket('send-msg',obj,this.roomID)
+    this.chats.push(obj)
+    this.chats.sort(this.sort)
+    this.msg = ''
+
+    // this.collections.add(obj).then((res)=>{
+    //   this.msg = ''
+    // }).catch((e)=>{
+    //   console.log(e);
+    // })
   }
 
   sendCode(){
@@ -159,7 +183,7 @@ export class ChatboxComponent implements OnDestroy {
   }
 
   toggle(){
-    this.back.emit(true)
+    this.back.emit(this.roomID)
   }
 
 

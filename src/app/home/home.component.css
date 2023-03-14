@@ -36,20 +36,21 @@
 }
 
 .profiler{
-    width: calc(100% + 30px);
+    width: calc(20% - 20px);
     height: 60px;
-    background-color: var(--text);
-    color: var(--primary);
+    background-color: var(--second);
+    color: var(--fourth);
     display: flex;
     flex-direction: row;
     gap: 10px;
-    box-shadow: 0px 3px 5px rgb(120, 129, 248);
+    /* box-shadow: 0px 3px 5px rgb(120, 129, 248); */
     cursor: pointer;
     padding: 10px;
     box-sizing: border-box;
     align-self: center;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
 
 }
 .profiler img{
@@ -112,6 +113,9 @@
       
         width: 100%;
     }
+    .profiler{
+        width: calc(100% - 40px);
+    }
 }
 
 @media only screen and (max-width:660px) {
@@ -128,5 +132,9 @@
 
     .right{
         height: 100vh;
+    }
+
+    .profiler{
+        width: 100%;
     }
 }

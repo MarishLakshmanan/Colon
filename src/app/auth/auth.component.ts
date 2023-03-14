@@ -54,17 +54,9 @@ export class AuthComponent {
       
       element.style.transform = `translateX(${x}%) translateY(${y}%)`
     });
-    // let x =(event.clientX);
-    // let y= (event.clientY);
-    // x = (x*6)/350
-    // y = (y*-6)/350
-    // let eye:any = document.querySelector('.profile')
-    // eye.style.setProperty('--y',`${x}px`)
-    // eye.style.setProperty('--x',`${y}px`)
 
-    if(this.src!="../../assets/pika.jpg"){
 
-    }
+    
 
 
     let eye:any = document.querySelector('.profile')

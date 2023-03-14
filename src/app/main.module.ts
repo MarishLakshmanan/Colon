@@ -10,7 +10,6 @@ import UserComponent from "./user/user.component";
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
 import { PickerComponent } from "./shared/picker/picker.component";
 import { HighlightModule, HIGHLIGHT_OPTIONS } from "ngx-highlightjs";
-import { LoaderComponent } from "./shared/loader/loader.component";
 import AuthModule from "./auth.module";
 
 
@@ -38,12 +37,6 @@ let routes:Routes = [
       }
     }
   ],
-  exports:[
-    UserComponent,
-    ChatboxComponent,
-    ChatComponent,
-    HomeComponent,
-    CodeComponent
-  ]
+  exports:[]
 })
 export default class MainModules{}
