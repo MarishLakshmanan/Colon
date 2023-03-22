@@ -1,0 +1,12 @@
+<div class="not-root">
+    <video *ngIf="find && start" class="bg" [autoplay]="true"  >
+        <source src="../../assets/exit-portal.mp4">
+    </video>
+    <video *ngIf="!find && start" class="bg" [autoplay]="true"  >
+        <source src="../../assets/Dark Storm Portal _ Footage VFX Black screen MOV.mp4">
+    </video>
+    <div class="code-container">
+        <p class="code" *ngFor="let cmd of commands">{{cmd}}</p>
+        <span class="code">> <input [spellcheck]="false" (keyup)="check($event)" autofocus class="code" [(ngModel)]="command"></span>
+    </div>
+</div>

@@ -1,16 +1,16 @@
 .chat-container{
     box-sizing: border-box;
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 40px);
     display: grid;
     position: relative;
     grid-template-rows: 60px calc(100% - 120px) 60px;
-    box-shadow: 10px 10px 50px #000000;
+    /* box-shadow: 10px 10px 50px #000000; */
     z-index: 88;
 }
 .header{
-    background-color: var(--white);
-    color: var(--primary);
+    background-color: var(--second);
+    color: var(--fourth);
     /* border-left: 1px solid rgb(143, 134, 134); */
     box-sizing: border-box;
     /* box-shadow: 0px 5px 10px rgb(177, 204, 255); */
@@ -19,6 +19,9 @@
     gap: 10px;
     padding: 10px;
     align-items: center;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+    /* box-shadow: 0px 5px 10px black; */
 }
 
 .header img,.input img{
@@ -35,7 +38,7 @@
     gap: 10px;
     padding: 10px;
     box-sizing: border-box;
-    color: var(--white);
+    color: var(--text);
     overflow-y:scroll;
     max-height: 100%;
 }
@@ -43,18 +46,19 @@
     display: none;
 }
 .input{
-    background-color: var(--fourth);
+    background-color: var(--second);
     display: flex;
     align-items: center;
     padding: 0px 20px;
     gap: 10px;
 }
 
-.input textarea{
+.input input{
     width: calc(100% - 100px);
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 50px;
     outline: none;
+    border: 0;
 }
 
 .btn-container{
@@ -80,7 +84,7 @@
     height: 300px;
     border-radius: 100%;
     position: relative;
-    animation:shake .3s linear 1s 20;
+    animation:shake .3s linear 1s 5;
 }
 
 .input img{
@@ -90,17 +94,93 @@
 .img-container{
     width: 40px;
     height: 100%;
-    background-color: var(--white);
+    background-color: var(--text);
     border-radius: 50%;
     box-sizing: border-box;
     padding: 5px;
-    box-shadow: 0px 3px 10px crimson, 3px 0px 10px crimson;
+    /* box-shadow: 0px 3px 10px crimson, 3px 0px 10px crimson; */
     cursor: pointer;
     transition: all .2s linear;
 }
 
 .img-container:hover{
     transform: scale(1.5);
+}
+
+.code{
+    width: 350px;
+    /* min-height: 200px; */
+    overflow: scroll;
+    box-sizing: border-box;
+    background-color: var(--text);
+    color: black;
+    border-radius: 7px;
+    overflow: hidden;
+    box-shadow: 0px 0px 10px black;
+    flex-shrink: 0;
+    background-color: rgb(11, 43, 54);
+
+}
+
+.header img:last-child{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background-color: white;
+    box-shadow: 0px 3px 7px black;
+}
+
+.overlay-2{
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 123;
+}
+
+
+.output{
+    background-color: var(--second);
+    border-radius: 8px;
+    border: 0px;
+    max-width: 70%;
+    max-height: 70%;
+    overflow: scroll;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.output p {
+    position: absolute;
+    background-color: white;
+    color: var(--third);
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    top: -22px;
+    left: 0px;
+    box-shadow: 0 0 10px black;
+    cursor: pointer;
+}
+
+.loader{
+    width: 80vh;
+}
+
+.output::-webkit-scrollbar{
+    display: none;
 }
 
 @keyframes shake{
@@ -119,5 +199,25 @@
         left: 10px;
         /* top: 5px; */
     }
+    
 
+}
+
+
+@media only screen and (max-width:940px) {
+    .header{
+        justify-content: space-between;
+    }
+
+    
+}
+
+@media only screen and (max-width:660px) {
+    
+
+    .chat-container{
+        height: 100vh;
+    }
+
+    
 }

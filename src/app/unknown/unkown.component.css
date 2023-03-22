@@ -1,0 +1,37 @@
+.not-root{
+    background: black;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 50px;
+    background-attachment: scroll;
+}
+
+.code{
+    color: rgba(80, 244, 57);
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 16px;
+    word-wrap: break-word;
+}
+
+input{
+    background-color: rgba(0,0, 0, 0);
+    border: 0px;
+    outline: none;
+    width: 90%;
+}
+
+.bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+.code-container{
+    /* background-color: rgba(0, 0, 0, .4); */
+    position: relative;
+    height: 100%;
+}

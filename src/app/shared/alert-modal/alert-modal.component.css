@@ -12,8 +12,8 @@
     border-radius: 10px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: bold;
-    border: 2px solid var(--white);
-    color: var(--white);
+    border: 2px solid var(--text);
+    color: var(--text);
     font-size: 15px;
     box-shadow: 5px 5px 10px 1px navy,-5px -5px 10px 1px navy;
     animation: slidein .5s linear 0s 1;

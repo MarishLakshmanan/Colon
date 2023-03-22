@@ -1,11 +1,18 @@
 .auth-container{
-    background-image: url("../../assets/bg.jpg");
+    background-image: url("../../assets/bg6.jpg");
+    background-color: black;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-repeat: no-repeat;
-    background-size: 100% 120%;
+    background-repeat:no-repeat;
+    background-size: cover
 }
+
+/* :root{
+    --top: 116px;
+    --right: 133px;
+    --left: 138px;
+} */
 
 .form-container{
     position: absolute;
@@ -13,20 +20,24 @@
     left: 50%;
     transform: translate(-50%,-50%);
     width: 380px;
-    height: 80%;
-    background-color: white;
+    /* min-height: 80%; */
+    /* background-color: white; */
     border-radius: 20px;
     padding: 10px;
     border: 5px solid white;
     box-shadow: 5px 5px 10px 1px navy,-5px -5px 10px 1px navy,inset 0px 3px 0px 3px rgb(214, 214, 214),inset 0px -3px 0px 3px rgb(214, 214, 214);
     box-sizing: border-box;
     position: relative;
-    animation: glow 3s linear 1s infinite;
+    /* animation: glow 3s linear 1s infinite; */
+    background-color: rgba(214,214,214,0.5);
+    backdrop-filter: blur(25px);
+    z-index: 3;
+
 }
 
 form{
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -67,6 +78,8 @@ form p{
     text-decoration: underline;
     font-size: 14px;
     cursor: pointer;
+    /* position: absolute; */
+    bottom: 10px;
 }
 
 .inputs{
@@ -82,16 +95,22 @@ form p{
     width: 90%;
     padding: 15px 10px;
     border: 0;
-    border-radius: 10px;
+    border-radius: 5px;
     box-sizing: border-box;   
-    box-shadow: 0px 5px 10px 0px  rgb(198, 193, 255);
+    /* box-shadow: inset 0px 5px 10px 0px  rgb(198, 193, 255),inset 0px -5px 10px 0px  rgb(198, 193, 255); */
     font-size: 15px;
     outline: none;
+    background-color: rgba(0, 0, 0,.2);
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.25);
+    border: 1px solid rgba(0,0,0,0.5);
+    color: white;
+    /* background-color: rgba(214,214,214,0.8); */
+    /* box-shadow: inset 0px 3px 5px rgb(66, 65, 66),inset 3px 0px 5px rgb(66, 65, 66),inset -3px 0px 5px rgb(66, 65, 66); */
 }
 
-.input::placeholder{
+input::placeholder{
     opacity: 1;
-    color: blue;
+    color: white;
 }
 
 .profile{
@@ -116,15 +135,112 @@ form p{
     display: none;
 }
 
-@keyframes glow{
+.shake{
+    animation: shake .5s linear 0s 3;
+    position: relative;
+}
+
+.center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% ,-50%);
+    width: 50%;
+}
+
+.comet-container{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    overflow: hidden;
+    z-index: 2;
+}
+
+.comet-container img{
+    position: absolute;
+    width: 80%;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    animation: float 8s linear 0s infinite;
+}
+
+.profile::before{
+    content: '.';
+    position: absolute;
+    top: var(--top);
+    left: var(--left);
+    color: white;
+    border-radius: 50%;
+    border: 5px solid white;
+    font-size: 3px;
+    background-color: white;
+    
+
+}
+
+.profile::after{
+    content: '.';
+    position: absolute;
+    top: var(--top);
+    right: var(--right);
+    color: white;
+    border-radius: 50%;
+    border: 5px solid white;
+    font-size: 3px;
+    background-color: white;
+    
+}
+
+
+@keyframes float {
     0%{
-        box-shadow: 5px 5px 10px 1px navy,-5px -5px 10px 1px navy,inset 0px 3px 0px 3px rgb(214, 214, 214),inset 0px -3px 0px 3px rgb(214, 214, 214);
+        top: 50%;
+    }
+    25%{
+        top:51%
     }
     50%{
-        box-shadow: 5px 5px 40px 1px rgb(0, 17, 255),-5px -5px 20px 1px navy,inset 0px 3px 0px 3px rgb(214, 214, 214),inset 0px -3px 0px 3px rgb(214, 214, 214);
+        top:50%
+    }
+    75%{
+        top:49%
     }
     100%{
-        box-shadow: 5px 5px 10px 1px navy,-5px -5px 10px 1px navy,inset 0px 3px 0px 3px rgb(214, 214, 214),inset 0px -3px 0px 3px rgb(214, 214, 214);
+        top:50%
+    }
+}
+
+@keyframes shake {
+    0%{
+        translate: 0px;
+    }
+    25%{
+        translate: 10px;
+    }
+    50%{
+        translate: 0px;
+    }
+    75%{
+        translate: -10px;
+    }
+    100%{
+        translate: 0px;
+    }
+}
+
+@keyframes glow{
+    0%{
+        box-shadow: 5px 5px 20px 1px navy,-5px -5px 20px 1px navy,inset 0px 3px 0px 3px rgb(214, 214, 214),inset 0px -3px 0px 3px rgb(214, 214, 214);
+    }
+    50%{
+        box-shadow: 5px 5px 60px 1px rgb(0, 17, 255),-5px -5px 60px 1px navy,inset 0px 3px 0px 3px rgb(214, 214, 214),inset 0px -3px 0px 3px rgb(214, 214, 214);
+    }
+    100%{
+        box-shadow: 5px 5px 20px 1px navy,-5px -5px 20px 1px navy,inset 0px 3px 0px 3px rgb(214, 214, 214),inset 0px -3px 0px 3px rgb(214, 214, 214);
     }
 }
 

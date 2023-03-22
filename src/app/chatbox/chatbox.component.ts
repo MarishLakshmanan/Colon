@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map, Observable, Subscription } from 'rxjs';
+import SockertService from '../home/socket.service';
 import UserService, { User } from '../shared/user.service';
 import { Msg } from '../shared/user.service';
 
@@ -11,7 +12,9 @@ import { Msg } from '../shared/user.service';
 })
 
 
-export class ChatboxComponent implements OnInit,OnDestroy {
+
+
+export class ChatboxComponent implements OnDestroy {
   collections:AngularFirestoreCollection
   listener:Observable<any>
   chats:Object[]
@@ -21,11 +24,22 @@ export class ChatboxComponent implements OnInit,OnDestroy {
   receiver:User
   available = false
   msg = ''
-  today = new Date().toISOString().slice(0,10);
+  output = ''
+  showOutput = false
+  today = new Date().getFullYear().toString()
+  compilerModal = false
+  loading = false
+  roomID
+  @ViewChild('box') box:ElementRef
+  @Output() back = new EventEmitter<boolean>()
+  public getScreenWidth: any;
+  public getScreenHeight: any;
 
   sort(item1,item2){
-    item1 = new Date(item1.time.seconds * 1000 + item1.time.nanoseconds / 1000000,);
-    item2 = new Date(item2.time.seconds * 1000 + item2.time.nanoseconds / 1000000,);
+    
+    
+    item1 = new Date(item1.time);
+    item2 = new Date(item2.time);
 
     if(item1<item2){
       return -1
@@ -36,39 +50,98 @@ export class ChatboxComponent implements OnInit,OnDestroy {
     }
   }
 
-  constructor(private afs:AngularFirestore,private userService:UserService){
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+  }
+
+
+  constructor(private afs:AngularFirestore,private userService:UserService,private socketService:SockertService){
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
     this.idSub = userService.passId.subscribe((res:{sender:string,receiver:string})=>{
-      console.log(res);
-      let roomID = Array.from((res.sender+res.receiver)).sort().join('')
-      this.collections = afs.collection('Chats').doc(this.today).collection(roomID)
-      this.listener = this.collections.valueChanges()
+      
+      this.roomID = Array.from((res.sender+res.receiver)).sort().join('')
+      // this.collections = afs.collection('Chats').doc(this.today).collection(this.roomID)
+      // this.listener = this.collections.valueChanges()
       this.receiver = userService.users[res.receiver]
       this.sender = JSON.parse(localStorage.getItem('user'))
       this.available = true
 
 
-      this.subscriber = this.listener.pipe(map((value)=>{
-        value.sort(this.sort)
-        return value
-      })).subscribe((res)=>{
-        this.chats = (res);
+      //Socket
+      socketService.listenToSocket('receive-msg').subscribe((data:Object)=>{
+        this.chats.push(data)
+        this.chats.sort(this.sort)
+        this.msg = ''
       })
+
+      socketService.listenToSocket('all-msg').subscribe((data:Object[])=>{
+        data.sort(this.sort)
+        this.chats = data
+      })
+
+      
+
+      // this.subscriber = this.listener.pipe(map((value)=>{
+      //   value.sort(this.sort)
+      //   return value
+      // })).subscribe((res)=>{
+      //   this.box.nativeElement.scrollTo(0,this.box.nativeElement.scrollHeight)
+      //   this.chats = (res);
+      // })
     })
   }
 
-  sendMsg(){
-    let obj:Msg = {id:this.sender.id,msg:this.msg,time:new Date()}
-    this.collections.add(obj).then((res)=>{
-      this.msg = ''
-    }).catch((e)=>{
-      console.log(e);
-    })
+  sendMsg(type){
+
+    if(this.msg==""){
+      return
+    }
+
+    let obj:Msg = {id:this.sender.id,msg:this.msg,time:new Date(),type:type}
+
+    //
+    this.socketService.emitToSocket('send-msg',obj,this.roomID)
+    this.chats.push(obj)
+    this.chats.sort(this.sort)
+    this.msg = ''
+
+    // this.collections.add(obj).then((res)=>{
+    //   this.msg = ''
+    // }).catch((e)=>{
+    //   console.log(e);
+    // })
   }
 
   sendCode(){
+    this.compilerModal = true
+  }
+
+  onCompile(event:Object|boolean){
+    if(event==true){
+      this.compilerModal=false
+      return
+    }
+    let {code,type,value} = (<{code:string,type:string,value:string}>event)
+    if(code==''){
+      return
+    }
+
+    this.msg = `type: ${type} \n\n ${code}`
+    this.sendMsg('code')
+    this.compilerModal=false
+  }
+
+
+  onCompile2(event:Object){
+    let {code,type,value} = (<{code:string,type:string,value:string}>event)
+    this.loading = true
+    code = code.trim()
     const encodedParams = new URLSearchParams();
-    encodedParams.append("code", this.msg);
-    encodedParams.append("language", "js");
+    encodedParams.append("code", code);
+    encodedParams.append("language", value);
 
     const options = {
       method: 'POST',
@@ -77,21 +150,40 @@ export class ChatboxComponent implements OnInit,OnDestroy {
       },
       body: encodedParams
     };
-
+    
     fetch('https://api.codex.jaagrav.in', options)
       .then(response => response.json())
-      .then(response => console.log(response))
-      .catch(err => console.error(err));
+      .then(response => {
+        console.log(response);
+        this.showOutput = true
+        if(response.error=='')
+          this.output = response.output
+        else
+          this.output = response.error
+        this.loading = false
+      })
+      .catch(err => {
+        console.log(err);
+        this.output = err
+        this.loading = false
+      });
   }
-
   
-  ngOnInit(){
-    
+
+
+  onPress(event){
+    if(event.key=="Enter"){
+      this.sendMsg("txt")
+    }
   }
 
   ngOnDestroy(): void {
     // this.subscriber.unsubscribe()
     this.idSub.unsubscribe()
+  }
+
+  toggle(){
+    this.back.emit(this.roomID)
   }
 
 

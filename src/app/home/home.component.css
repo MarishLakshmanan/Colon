@@ -3,7 +3,7 @@
     height: 100vh;
     overflow: hidden;
     box-sizing: border-box;
-    /* padding: 20px; */
+    padding: 20px;
     background-color: var(--primary);
     display: grid;
     grid-template-columns: 20% 80%;
@@ -20,6 +20,7 @@
     flex-direction: column;
     gap: 15px;
     overflow-y: scroll;
+    height: calc(100vh - 40px);
 }
 
 .left::-webkit-scrollbar{
@@ -30,26 +31,110 @@
     background-color: var(--third);
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    height: calc(100vh - 40px);
+    box-sizing: border-box;
 }
 
 .profiler{
-    width: calc(100% + 30px);
+    width: calc(20% - 20px);
     height: 60px;
-    background-color: var(--white);
-    color: var(--primary);
+    background-color: var(--second);
+    color: var(--fourth);
     display: flex;
     flex-direction: row;
     gap: 10px;
-    box-shadow: 0px 3px 5px rgb(120, 129, 248);
+    /* box-shadow: 0px 3px 5px rgb(120, 129, 248); */
     cursor: pointer;
     padding: 10px;
     box-sizing: border-box;
     align-self: center;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
 
 }
 .profiler img{
     border-radius: 50%;
     width: 40px;
     height: 100%;
-    object-fit: cover
+    object-fit: cover;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.profiler img:last-child{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background-color: white;
+    box-shadow: 0px 3px 7px black;
+}
+
+
+.select{
+    box-sizing: border-box;
+    position: relative;
+}
+
+.select ul{
+    background-color: rgba(0, 0, 0, .8);
+    width: 100px;
+    list-style: none;
+    padding: 5px;
+    position: absolute;
+    top: calc(100% - 10px);
+    left: -14px;
+    transform: translateX(-50%);
+    border-radius: 7px;
+    height: auto;
+    animation: drop .5s linear 0s 1;
+    overflow-y: hidden;
+}
+
+.select ul li{
+    background-color: var(--text);
+    width: 100%;
+    padding: 5px 10px;
+    border: 2px solid black;
+    border-radius: 7px;
+    margin: 5px 0px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+@media only screen and (max-width:940px) {
+    .root{
+        display: flex;
+    }
+    .right{
+        
+        width: 100%;
+    }
+    .left{
+      
+        width: 100%;
+    }
+    .profiler{
+        width: calc(100% - 40px);
+    }
+}
+
+@media only screen and (max-width:660px) {
+    
+
+    .root{
+        padding: 0px;
+    }
+
+    .left{
+        height: 100vh;
+        border-radius: 0px;
+    }
+
+    .right{
+        height: 100vh;
+    }
+
+    .profiler{
+        width: 100%;
+    }
 }

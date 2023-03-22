@@ -1,15 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 :root{
-    --primary : #00194A;
-    --second: #000A2E;
-    --third:#1D295E;
-    --fourth:#00072C;
-    --fifth:#002765;
-    --white:#fff;
+    --primary : #000000;
+    --second: #2F4550;
+    --third:#586f7c;
+    --fourth:#b8dbd9;
+    --fifth:#f4f4f9;
+    --text:#000000;
     --error:red;
+    --top: 105px;
+    --right: 125px;
+    --left: 133px;
+    --x:0px;
+    --y:0px;
 }
 
 body{
     margin: 0;
     padding: 0;
+}
+
+.bold{
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.bolder{
+    font-weight: bolder;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+*::-webkit-scrollbar{
+    width: 3px;
+    height: 5px;
+}
+
+
+*::-webkit-scrollbar-track{
+    background:white;
+}
+
+*::-webkit-scrollbar-thumb{
+    background: var(--primary);
+    border-radius: 7px;
 }

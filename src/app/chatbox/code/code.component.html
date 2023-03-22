@@ -1,0 +1,22 @@
+<div class="overlay">
+    <div class="container">
+        <h2 >Enter your code</h2>
+        <textarea [(ngModel)]="code" ></textarea>
+        <div class="btn-container">
+            <button (click)="onCancel()" class=".bold">Cancel</button>
+            <div class="select">
+                <button (click)="toggle()" >{{selectedLang}}  <sup>⌄</sup></button>
+                <ul *ngIf="langB">
+                    <li (click)="onSelect('java','Java')" >Java</li>
+                    <li (click)="onSelect('py','Python')" >Python</li>
+                    <li (click)="onSelect('cpp','C++')" >C++</li>
+                    <li (click)="onSelect('c','C')" >C</li>
+                    <li (click)="onSelect('go','GoLang')" >GoLang</li>
+                    <li (click)="onSelect('cs','C#')" >C#</li>
+                    <li (click)="onSelect('js','NodeJs')" >NodeJs</li>
+                </ul>
+            </div>
+            <button (click)="onCompile()" class=".bold">Compile</button>
+        </div>
+    </div>
+</div>

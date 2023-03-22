@@ -1,12 +1,21 @@
 <div class="root">
-    <div class="left">
+    <div class="left" [ngStyle]="(getScreenWidth<940)?(toggle)?{display:'flex'}:{display:'none'}:''">
         <div class="profiler">
             <img [src]="user.profile">
             <p >{{user.name}}</p>
+            <!-- <img (click)="logout()" src="../../assets/logout.png"> -->
+            <div class="select">
+                <div><img (click)="onToggle()" src="../../assets/more.png"></div>
+                <ul *ngIf="option">
+                    <li (click)="toggleTheme()" >Theme</li>
+                    <li (click)="logout()" >Logout</li>
+                </ul>
+            </div>
         </div>
-       <app-user *ngFor="let usr of users" [user]="usr" (cb)="onSelect($event)"></app-user> 
+       <app-user (click)="toggleMode($event)" *ngFor="let usr of users;index as i" [active]="checkActiveUser(usr.id)" [user]="usr" [ngStyle]="(i==0)?{marginTop:'70px'}:''" (cb)="onSelect($event)"></app-user>
     </div>
-    <div class="right">
-        <app-chatbox></app-chatbox>
+    <div class="right" [ngStyle]="(getScreenWidth<940)?(toggle)?{display:'none'}:{display:'flex'}:''">
+        <app-chatbox (back)="toggleMode($event)" [ngStyle]="{width:'100%'}"></app-chatbox>
     </div>
+    <app-picker (close)="closeTheme($event)" *ngIf="picker"></app-picker>
 </div>
